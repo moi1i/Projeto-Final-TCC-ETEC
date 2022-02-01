@@ -3,8 +3,10 @@ package br.com.pinguins.tcc.backend.services;
 
 import br.com.pinguins.tcc.backend.dtos.UsuarioDTO;
 import br.com.pinguins.tcc.backend.entities.Usuario;
+import br.com.pinguins.tcc.backend.exceptions.ResourceNotFoundException;
 import br.com.pinguins.tcc.backend.mappers.DozerMapper;
 import br.com.pinguins.tcc.backend.repositories.UsuarioRepository;
+import br.com.pinguins.tcc.backend.utils.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,8 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findById(Long id) {
-        Usuario usuario = DozerMapper.parseObject(usuarioRepository.findById(id), Usuario.class);
+        Usuario usuario = DozerMapper.parseObject(usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND)), Usuario.class);
 
         return DozerMapper.parseObject(usuario, UsuarioDTO.class);
 
