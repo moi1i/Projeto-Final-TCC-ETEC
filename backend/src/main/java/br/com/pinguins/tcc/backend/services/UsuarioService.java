@@ -24,16 +24,27 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findById(Long id) {
-        Usuario usuario = DozerMapper.parseObject(usuarioRepository.findById(id)
+        Usuario entity = DozerMapper.parseObject(usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND)), Usuario.class);
 
-        return DozerMapper.parseObject(usuario, UsuarioDTO.class);
-
+        return DozerMapper.parseObject(entity, UsuarioDTO.class);
     }
-
 
     public void save(UsuarioDTO usuarioDTO) {
         Usuario usuarioEntity = DozerMapper.parseObject(usuarioDTO, Usuario.class);
         DozerMapper.parseObject(usuarioRepository.save(usuarioEntity), UsuarioDTO.class);
     }
+
+    public UsuarioDTO update(Long id, Usuario usuario) {
+        Usuario entity = DozerMapper.parseObject(usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND)), Usuario.class);
+
+        entity.setNome(usuario.getNome());
+        entity.setEmail(usuario.getEmail());
+        entity.setSenha(usuario.getSenha());
+
+        return DozerMapper.parseObject(usuarioRepository.save(entity), UsuarioDTO.class);
+
+    }
+
 }
