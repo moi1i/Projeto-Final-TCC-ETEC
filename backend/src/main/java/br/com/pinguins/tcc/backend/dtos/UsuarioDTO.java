@@ -64,5 +64,4 @@ public class UsuarioDTO {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 }

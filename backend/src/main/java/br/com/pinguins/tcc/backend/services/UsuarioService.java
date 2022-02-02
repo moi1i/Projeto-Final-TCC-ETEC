@@ -36,7 +36,6 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
     }
 
-
     public void save(UsuarioDTO usuarioDTO) {
         usuarioRepository.save(mapper.toEntity(usuarioDTO));
         Optional.of(usuarioRepository.findByEmail(usuarioDTO.getEmail()))
