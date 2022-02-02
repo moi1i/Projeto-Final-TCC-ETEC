@@ -46,10 +46,10 @@ public class UsuarioController {
 
     @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsuarioDTO> update(@PathVariable("id") Long id, @RequestBody Usuario usuario) {
-        UsuarioDTO usuarioDTO = usuarioService.update(id, usuario);
+    public ResponseEntity<UsuarioDTO> update(@PathVariable("id") Long id, @RequestBody UsuarioDTO user) {
+        UsuarioDTO usuarioDTO = usuarioService.updateById(id, user);
 
-        return ResponseEntity.ok(usuarioDTO);
+        return ResponseEntity.ok().body(usuarioDTO);
     }
 
     @DeleteMapping(value = "/delete/{id}")

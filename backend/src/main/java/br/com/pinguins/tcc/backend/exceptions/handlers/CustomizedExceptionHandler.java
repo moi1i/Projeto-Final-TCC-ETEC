@@ -1,5 +1,6 @@
 package br.com.pinguins.tcc.backend.exceptions.handlers;
 
+import br.com.pinguins.tcc.backend.exceptions.BusinessException;
 import br.com.pinguins.tcc.backend.exceptions.ExceptionResponse;
 import br.com.pinguins.tcc.backend.exceptions.ResourceNotFoundException;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -25,13 +26,21 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
     }
 
-
     @ExceptionHandler(ResourceNotFoundException.class)
-    protected ResponseEntity<ExceptionResponse> handle(ChangeSetPersister.NotFoundException e, WebRequest req) {
+    protected ResponseEntity<ExceptionResponse> handleNotFoundException(ChangeSetPersister.NotFoundException e, WebRequest req) {
 
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(e.getMessage(), req.getDescription(true));
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<ExceptionResponse> handleSecurity(ChangeSetPersister.NotFoundException e, WebRequest req) {
+
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(e.getMessage(), req.getDescription(true));
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exceptionResponse);
     }
 }

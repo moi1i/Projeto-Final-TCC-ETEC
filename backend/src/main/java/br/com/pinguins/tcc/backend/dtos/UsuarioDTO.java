@@ -1,5 +1,7 @@
 package br.com.pinguins.tcc.backend.dtos;
 
+import br.com.pinguins.tcc.backend.entities.Usuario;
+
 import java.util.Objects;
 
 public class UsuarioDTO {
@@ -8,6 +10,15 @@ public class UsuarioDTO {
     private String nome;
     private String email;
     private String senha;
+
+    public UsuarioDTO(){}
+
+    public UsuarioDTO(Usuario usuario) {
+        id = usuario.getId();
+        nome = usuario.getNome();
+        email = usuario.getEmail();
+        senha = usuario.getSenha();
+    }
 
     public Long getId() {
         return id;
@@ -53,4 +64,5 @@ public class UsuarioDTO {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
