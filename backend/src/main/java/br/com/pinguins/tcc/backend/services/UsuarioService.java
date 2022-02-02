@@ -3,6 +3,7 @@ package br.com.pinguins.tcc.backend.services;
 
 import br.com.pinguins.tcc.backend.dtos.UsuarioDTO;
 import br.com.pinguins.tcc.backend.entities.Usuario;
+import br.com.pinguins.tcc.backend.exceptions.BusinessException;
 import br.com.pinguins.tcc.backend.exceptions.ResourceNotFoundException;
 import br.com.pinguins.tcc.backend.mappers.UsuarioMapper;
 import br.com.pinguins.tcc.backend.repositories.UsuarioRepository;
@@ -35,12 +36,26 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
     }
 
+
+    public void save(UsuarioDTO usuarioDTO) {
+        usuarioRepository.save(mapper.toEntity(usuarioDTO));
+        Optional.of(usuarioRepository.findByEmail(usuarioDTO.getEmail()))
+                .ifPresent(x -> {
+                    throw new BusinessException(MessageUtil.MESSAGE_EMAIL_EXISTS);
+                });
+
+        Usuario usuario = mapper.toEntity(usuarioDTO);
+        mapper.toDto(usuario);
+    }
+
     public void deleteById(Long id) {
+        usuarioRepository.findById(id)
+                .map(mapper::toDto).orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
+
         usuarioRepository.deleteById(id);
     }
 
     public UsuarioDTO updateById(Long id, UsuarioDTO usuarioDTO) {
-
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
 
@@ -51,14 +66,5 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
 
         return mapper.toDto(usuario);
-    }
-
-    public void save(UsuarioDTO usuarioDTO) {
-         Optional<Usuario> teste = Optional
-                 .of(usuarioRepository.save(mapper.toEntity(usuarioDTO)));
-
-        Usuario usuario = mapper.toEntity(usuarioDTO);
-
-        mapper.toDto(usuario);
     }
 }
