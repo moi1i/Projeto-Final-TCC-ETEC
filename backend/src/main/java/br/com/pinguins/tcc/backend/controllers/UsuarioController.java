@@ -1,7 +1,6 @@
 package br.com.pinguins.tcc.backend.controllers;
 
 import br.com.pinguins.tcc.backend.dtos.UsuarioDTO;
-import br.com.pinguins.tcc.backend.entities.Usuario;
 import br.com.pinguins.tcc.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,7 +28,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.findAll());
     }
 
-    @GetMapping(value = "id/{id}")
+    @GetMapping(value = "/id/{id}")
     public ResponseEntity<UsuarioDTO> findById(@PathVariable("id") Long id) {
         UsuarioDTO usuarioDTO = usuarioService.findById(id);
 

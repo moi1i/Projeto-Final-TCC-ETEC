@@ -2,11 +2,9 @@ package br.com.pinguins.tcc.backend.dtos;
 
 import br.com.pinguins.tcc.backend.entities.Usuario;
 
-import java.util.Objects;
-
 public class UsuarioDTO {
 
-    private Long id;
+    private Integer id;
     private String nome;
     private String email;
     private String senha;
@@ -20,11 +18,11 @@ public class UsuarioDTO {
         senha = usuario.getSenha();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,16 +50,4 @@ public class UsuarioDTO {
         this.senha = senha;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UsuarioDTO that = (UsuarioDTO) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
