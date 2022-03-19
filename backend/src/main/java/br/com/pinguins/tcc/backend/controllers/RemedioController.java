@@ -60,5 +60,4 @@ public class RemedioController {
 
         return ResponseEntity.ok("Apagado com sucesso!");
     }
-
 }
