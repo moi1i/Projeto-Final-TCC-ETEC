@@ -1,5 +1,7 @@
 package br.com.pinguins.tcc.backend.dtos;
 
+import br.com.pinguins.tcc.backend.entities.Remedio;
+
 public class RemedioDTO {
 
     public Integer id;
@@ -12,6 +14,12 @@ public class RemedioDTO {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+    }
+
+    public RemedioDTO(Remedio remedio) {
+        id = remedio.getId();
+        nome = remedio.getNome();
+        descricao = remedio.getDescricao();
     }
 
     public Integer getId() {
