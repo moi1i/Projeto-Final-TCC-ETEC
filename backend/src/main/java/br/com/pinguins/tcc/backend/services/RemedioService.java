@@ -27,7 +27,10 @@ public class RemedioService {
 
     @Transactional(readOnly = true)
     public List<RemedioDTO> findAll() {
-        return mapper.dtoList(repository.findAll());
+
+        List<Remedio> remedioList = repository.findAll();
+
+        return mapper.dtoList(remedioList);
     }
 
     @Transactional(readOnly = true)
@@ -42,11 +45,13 @@ public class RemedioService {
     }
 
     @Transactional
-    public void save(RemedioDTO remedioDTO) {
+    public RemedioDTO save(RemedioDTO remedioDTO) {
 
-        repository.save(mapper.toEntity(remedioDTO));
         Remedio remedio = mapper.toEntity(remedioDTO);
-        mapper.toDto(remedio);
+
+        repository.save(remedio);
+
+        return mapper.toDto(remedio);
     }
 
     @Transactional
