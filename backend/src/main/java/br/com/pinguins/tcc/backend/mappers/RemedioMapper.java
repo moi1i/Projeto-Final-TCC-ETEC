@@ -1,7 +1,6 @@
 package br.com.pinguins.tcc.backend.mappers;
 
 import br.com.pinguins.tcc.backend.dtos.RemedioDTO;
-import br.com.pinguins.tcc.backend.entities.Lembrete;
 import br.com.pinguins.tcc.backend.entities.Remedio;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +29,7 @@ public class RemedioMapper {
         return dto;
     }
 
-    public List<RemedioDTO> dtoList(List<Lembrete> listUser) {
+    public List<RemedioDTO> dtoList(List<Remedio> listUser) {
         return listUser.stream().map(x -> new RemedioDTO()).collect(Collectors.toList());
     }
 }

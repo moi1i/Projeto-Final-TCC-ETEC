@@ -10,6 +10,7 @@ import br.com.pinguins.tcc.backend.repositories.UsuarioRepository;
 import br.com.pinguins.tcc.backend.utils.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,38 +24,42 @@ public class UsuarioService {
     @Autowired
     private UsuarioMapper mapper;
 
+    @Transactional(readOnly = true)
     public List<UsuarioDTO> findAll() {
         List<Usuario> userList = usuarioRepository.findAll();
 
         return mapper.dtoList(userList);
     }
 
-    public UsuarioDTO findById(Long id) {
+    @Transactional
+    public UsuarioDTO findById(Integer id) {
         return usuarioRepository
                 .findById(id)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
     }
 
-    public void save(UsuarioDTO usuarioDTO) {
-        usuarioRepository.save(mapper.toEntity(usuarioDTO));
-        Optional.of(usuarioRepository.findByEmail(usuarioDTO.getEmail()))
-                .ifPresent(x -> {
-                    throw new BusinessException(MessageUtil.MESSAGE_EMAIL_EXISTS);
-                });
+
+    @Transactional
+    public UsuarioDTO save(UsuarioDTO usuarioDTO) {
 
         Usuario usuario = mapper.toEntity(usuarioDTO);
-        mapper.toDto(usuario);
+
+        usuarioRepository.save(usuario);
+
+        return mapper.toDto(usuario);
     }
 
-    public void deleteById(Long id) {
+    @Transactional
+    public void deleteById(Integer id) {
         usuarioRepository.findById(id)
                 .map(mapper::toDto).orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
 
         usuarioRepository.deleteById(id);
     }
 
-    public UsuarioDTO updateById(Long id, UsuarioDTO usuarioDTO) {
+    @Transactional
+    public UsuarioDTO updateById(Integer id, UsuarioDTO usuarioDTO) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.MESSAGE_USER_NOT_FOUND));
 

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -16,29 +17,28 @@ public class Lembrete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idLembrete", unique = true, nullable = false)
     private Integer id;
 
     @Column(length = 45, nullable = false)
     private String titulo;
 
     @Column(nullable = false)
-    private LocalDate notificacao;
+    private LocalDate data;
 
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_user"))
-    private Usuario usuario;
+    //@ManyToOne
+    //@JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_user"))
+    //private Usuario usuario;
 
     public Lembrete(){}
 
-    public Lembrete(Integer id, String titulo, LocalDate notificacao, String descricao, Usuario usuario) {
+    public Lembrete(Integer id, String titulo, LocalDate data, String descricao, Usuario usuario) {
         this.id = id;
         this.titulo = titulo;
-        this.notificacao = notificacao;
+        this.data = data;
         this.descricao = descricao;
-        this.usuario = usuario;
+        //this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -58,11 +58,11 @@ public class Lembrete {
     }
 
     public LocalDate getNotificacao() {
-        return notificacao;
+        return data;
     }
 
-    public void setNotificacao(LocalDate notificacao) {
-        this.notificacao = notificacao;
+    public void setNotificacao(LocalDate data) {
+        this.data = data;
     }
 
     public String getDescricao() {
@@ -73,13 +73,13 @@ public class Lembrete {
         this.descricao = descricao;
     }
 
-    public Usuario getUser() {
+    /*public Usuario getUser() {
         return usuario;
     }
 
     public void setUser(Usuario user) {
         this.usuario = user;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
